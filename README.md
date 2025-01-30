@@ -39,4 +39,4 @@ npm run dev
 The cron job is set to run every day at 7:30 AM.
 
 ## Swagger
-The swagger documentation is available at http://localhost:3000/api-docs
+The swagger documentation is available at http://localhost:${PORT}/api-docs
