@@ -46,14 +46,6 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Config files
-*.yaml
-*.yml
-*.toml
-*.ini
-*.config.js
-*.config.ts
-
 # Cache
 .cache/
 .npm/
