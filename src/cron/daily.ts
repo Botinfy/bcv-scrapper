@@ -3,8 +3,7 @@ import { saveRate } from '../services/data.service';
 
 //
 export function dailyScraping() {
-
-    cron.schedule('30 6 * * *', async () => {
+    cron.schedule('15 0 * * *', async () => {
         await saveRate();
     }, {
         timezone: 'America/Caracas'

@@ -7,7 +7,9 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "./build",
+    "rootDir": "./src"
   },
   "include": ["src/**/*.ts", "src/docs/swaggerDef.js", "test/**/*.ts"]
 }

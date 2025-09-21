@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
 import { dailyScraping } from "./cron/daily";
+import { saveRate } from "./services/data.service";
 
 
 const PORT = process.env.PORT || 3000;
@@ -28,7 +29,8 @@ app.use("/api/rates", rates);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
+  await saveRate();
   console.log(`Server is running on port ${PORT}`);
   dailyScraping();
 });
