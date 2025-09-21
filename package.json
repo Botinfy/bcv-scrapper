@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+
+    "migrate": "npx prisma migrate dev",
     "build": "tsc",
+
     "start": "node build/index.js",
     "dev": "ts-node-dev src/index.ts",
+    
     "tsc": "tsc",
     "test": "jest",
     "seed": "ts-node-dev src/lib/seed.ts",

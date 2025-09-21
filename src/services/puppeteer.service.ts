@@ -1,17 +1,12 @@
 // src/services/puppeteer.service.ts
 import puppeteer from "puppeteer";
+import { getPuppeteerConfig } from "../config/puppeteer.config";
 
 type RateResult = { date: Date; rate: number };
 
 export async function getCurrentRate(): Promise<RateResult> {
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-    ],
-  });
+  const browser = await puppeteer.launch(getPuppeteerConfig());
 
   try {
     const page = await browser.newPage();
