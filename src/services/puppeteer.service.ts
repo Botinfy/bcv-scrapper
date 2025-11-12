@@ -11,6 +11,10 @@ export async function getCurrentRate(): Promise<RateResult> {
   try {
     const page = await browser.newPage();
 
+    await page.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+    );
+
     await page.goto("https://www.bcv.org.ve/", {
       waitUntil: "domcontentloaded",
       timeout: 60_000,
@@ -47,7 +51,12 @@ export async function getCurrentRate(): Promise<RateResult> {
     // console.log(date, rate);
 
     return { date, rate };
-  } finally {
+  } 
+  catch (error) {
+    console.error("Error al obtener la tasa actual:", error);
+    throw error;
+  }
+  finally {
     await browser.close();
   }
 }

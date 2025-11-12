@@ -44,7 +44,6 @@ yarn-error.log*
 *.lock
 package-lock.json
 yarn.lock
-pnpm-lock.yaml
 
 # Cache
 .cache/
