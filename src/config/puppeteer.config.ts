@@ -26,7 +26,7 @@ export const getPuppeteerConfig = () => {
   if (isDocker) {
     return {
       ...baseConfig,
-      executablePath: '/usr/bin/chromium',
+      executablePath: '/usr/bin/chromium-browser',
       args: [
         ...baseConfig.args,
         "--disable-web-security",
