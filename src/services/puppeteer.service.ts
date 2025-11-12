@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer";
 import { getPuppeteerConfig } from "../config/puppeteer.config";
 
-type RateResult = { date: Date; rate: number };
+type RateResult = { date: Date; rate: number; rateEUR: number };
 
 export async function getCurrentRate(): Promise<RateResult> {
 
@@ -22,17 +22,21 @@ export async function getCurrentRate(): Promise<RateResult> {
 
     // Espera a que aparezcan los selectores
     await page.waitForSelector("#dolar strong", { timeout: 30_000 });
+    await page.waitForSelector("#euro strong", { timeout: 30_000 });
     await page.waitForSelector(".date-display-single", { timeout: 30_000 });
 
-    const { rateText, dateContent } = await page.evaluate(() => {
+    const { rateText, dateContent, rateTextEUR } = await page.evaluate(() => {
       const strong = document.querySelector("#dolar strong");
+      const strongEUR = document.querySelector("#euro strong");
       const dateEl = document.querySelector(".date-display-single");
 
       const rateText =
         strong?.textContent?.trim() || strong?.innerHTML?.trim() || "";
+      const rateTextEUR =
+        strongEUR?.textContent?.trim() || strongEUR?.innerHTML?.trim() || "";
       const dateContent = dateEl?.getAttribute("content") || "";
 
-      return { rateText, dateContent };
+      return { rateText, rateTextEUR, dateContent };
     });
 
     if (!rateText || !dateContent) {
@@ -41,16 +45,17 @@ export async function getCurrentRate(): Promise<RateResult> {
 
     // Convierte "xx,yy" ->  xx.yy  y parsea
     const rate = parseFloat(rateText.replace(/\./g, "").replace(",", "."));
+    const rateEUR = parseFloat(rateTextEUR.replace(/\./g, "").replace(",", "."));
     const date = new Date(dateContent);
 
     if (Number.isNaN(rate) || isNaN(date.getTime())) {
-      throw new Error(`Valores inválidos. rate="${rateText}" date="${dateContent}"`);
+      throw new Error(`Valores inválidos. rate="${rateText}" rateEUR="${rateTextEUR}" date="${dateContent}"`);
     }
 
     // DEBUG opcional
     // console.log(date, rate);
 
-    return { date, rate };
+    return { date, rate, rateEUR };
   } 
   catch (error) {
     console.error("Error al obtener la tasa actual:", error);

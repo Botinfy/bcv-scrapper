@@ -53,7 +53,7 @@ export const getPuppeteerConfig = () => {
   // Configuración para desarrollo
   return {
     ...baseConfig,
-    headless: false, // Para desarrollo, puedes ver el navegador
+    headless: true, // Para desarrollo, puedes ver el navegador
     devtools: true,
   };
 };

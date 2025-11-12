@@ -12,6 +12,7 @@ export async function saveRate(): Promise<void> {
       data: {
         date: scrappedResult.date,
         rate: scrappedResult.rate,
+        rateEUR: scrappedResult.rateEUR
       },
     });
 
