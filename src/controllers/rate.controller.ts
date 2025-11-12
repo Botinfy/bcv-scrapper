@@ -15,6 +15,7 @@ export async function getCurrentRate(
       select: {
         date: true,
         rate: true,
+        rateEUR: true
       },
     });
 
@@ -25,7 +26,8 @@ export async function getCurrentRate(
 
     res.status(200).json({
       date: rate.date.toISOString().split('T')[0],
-      rate: rate.rate
+      rate: rate.rate,
+      rateEUR: rate.rateEUR
     });
 
   } catch (error) {
@@ -61,6 +63,7 @@ export async function getHistoricalRates(
       select: {
         date: true,
         rate: true,
+        rateEUR: true
       },
     });
 
@@ -73,7 +76,8 @@ export async function getHistoricalRates(
       rates.map(rate => (
         {
           date: rate.date.toISOString().split('T')[0], 
-          rate: rate.rate
+          rate: rate.rate,
+          rateEUR: rate.rateEUR
         }
       ))
     );
