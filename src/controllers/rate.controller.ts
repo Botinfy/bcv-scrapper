@@ -35,6 +35,59 @@ export async function getCurrentRate(
   }
 }
 
+async function getLatestRateField(field: "rate" | "rateEUR"): Promise<number | null> {
+  const record = await prisma.rate.findFirst({
+    orderBy: {
+      date: "desc",
+    },
+    select: {
+      [field]: true,
+    },
+  });
+
+  if (!record) {
+    return null;
+  }
+
+  return record[field];
+}
+
+export async function getCurrentRateUSD(
+  _req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    const rate = await getLatestRateField("rate");
+
+    if (rate === null) {
+      res.status(404).json({ error: "Rate not found" });
+      return;
+    }
+
+    res.status(200).json(rate);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export async function getCurrentRateEUR(
+  _req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    const rateEUR = await getLatestRateField("rateEUR");
+
+    if (rateEUR === null) {
+      res.status(404).json({ error: "Rate not found" });
+      return;
+    }
+
+    res.status(200).json(rateEUR);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export async function getHistoricalRates(
   req: Request,
   res: Response
@@ -73,7 +126,7 @@ export async function getHistoricalRates(
     }
 
     res.status(200).json(
-      rates.map(rate => (
+      rates.map((rate: { date: Date; rate: number; rateEUR: number }) => (
         {
           date: rate.date.toISOString().split('T')[0], 
           rate: rate.rate,

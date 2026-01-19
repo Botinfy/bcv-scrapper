@@ -11,6 +11,36 @@
 
 /**
  * @swagger
+ * /api/rates/current/usd:
+ *   get:
+ *     summary: Obtiene únicamente la tasa USD actual
+ *     responses:
+ *       200:
+ *         description: Tasa USD actual (número)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: number
+ *             example: 57.12
+ */
+
+/**
+ * @swagger
+ * /api/rates/current/eur:
+ *   get:
+ *     summary: Obtiene únicamente la tasa EUR actual
+ *     responses:
+ *       200:
+ *         description: Tasa EUR actual (número)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: number
+ *             example: 61.34
+ */
+
+/**
+ * @swagger
  * /api/rates/history:
  *   get:
  *     summary: Obtiene el historial de las tasas desde una fecha inicial hasta una fecha final

@@ -14,6 +14,22 @@ describe('GET /api/rates/current', () => {
     });
   });
 
+describe('GET /api/rates/current/usd', () => {
+    it('should return only the USD rate as a number', async () => {
+      const response = await request(app).get('/api/rates/current/usd');
+      expect(response.status).toBe(200);
+      expect(typeof response.body).toBe('number');
+    });
+  });
+
+describe('GET /api/rates/current/eur', () => {
+    it('should return only the EUR rate as a number', async () => {
+      const response = await request(app).get('/api/rates/current/eur');
+      expect(response.status).toBe(200);
+      expect(typeof response.body).toBe('number');
+    });
+  });
+
 describe('GET /api/rates/history', () => {
     it('should return the history of rates with date and rate properties', async () => {
       const response = await request(app)
