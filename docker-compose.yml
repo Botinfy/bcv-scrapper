@@ -1,0 +1,20 @@
+version: "3.8"
+
+
+
+services:
+  bcv-api: #nommbre del servicio para el volumen
+    build: .
+    container_name: bcv-api #nombre del contenedor
+    restart: always  #por si el contenedor falla o algo, se reinicia solo
+    ports:
+      - 30000:3000 #mismo puerto que el dockerfile
+    env_file: 
+      - .env 
+    volumes:
+      - sqlite_data:/app/prisma
+
+volumes:
+  sqlite_data: #nombre que tendra el volumen
+
+
