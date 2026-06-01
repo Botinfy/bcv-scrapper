@@ -29,10 +29,13 @@ app.use("/api/rates", rates);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
-app.listen(PORT, async() => {
-  await saveRate();
-  console.log(`Server is running on port ${PORT}`);
-  dailyScraping();
-});
+// Evita levantar el servidor / scrapear el BCV al importar el módulo en tests.
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, async () => {
+    await saveRate();
+    console.log(`Server is running on port ${PORT}`);
+    dailyScraping();
+  });
+}
 
 export default app;

@@ -1,6 +1,7 @@
 // src/services/puppeteer.service.ts
 import puppeteer from "puppeteer";
 import { getPuppeteerConfig } from "../config/puppeteer.config";
+import { caracasMidnight } from "../lib/date";
 
 type RateResult = { date: Date; rate: number; rateEUR: number };
 
@@ -46,9 +47,12 @@ export async function getCurrentRate(): Promise<RateResult> {
     // Convierte "xx,yy" ->  xx.yy  y parsea
     const rate = parseFloat(rateText.replace(/\./g, "").replace(",", "."));
     const rateEUR = parseFloat(rateTextEUR.replace(/\./g, "").replace(",", "."));
-    const date = new Date(dateContent);
+    // Normaliza a la medianoche de la fecha valor en hora de Caracas para que
+    // la fecha sea canónica (deduplicación) y no se corra de día según la
+    // zona horaria del servidor.
+    const date = caracasMidnight(new Date(dateContent));
 
-    if (Number.isNaN(rate) || isNaN(date.getTime())) {
+    if (Number.isNaN(rate) || Number.isNaN(rateEUR) || isNaN(date.getTime())) {
       throw new Error(`Valores inválidos. rate="${rateText}" rateEUR="${rateTextEUR}" date="${dateContent}"`);
     }
 
