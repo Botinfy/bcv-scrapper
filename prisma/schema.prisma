@@ -12,7 +12,7 @@ datasource db {
 
 model Rate {
   id        String   @id @default(cuid())
-  date      DateTime
+  date      DateTime @unique
   rate      Float
   rateEUR   Float
   createdAt DateTime @default(now())

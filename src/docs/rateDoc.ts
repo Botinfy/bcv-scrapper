@@ -41,6 +41,83 @@
 
 /**
  * @swagger
+ * /api/rates/next:
+ *   get:
+ *     summary: Obtiene la tasa del próximo día hábil (fecha valor futura)
+ *     description: >
+ *       Devuelve la tasa cuya fecha valor es posterior a hoy (hora Caracas).
+ *       Como el BCV salta fines de semana y feriados, "próxima" no siempre es
+ *       mañana calendario. Si aún no hay una tasa futura publicada, hace
+ *       fallback a la tasa vigente con isFuture en false.
+ *     responses:
+ *       200:
+ *         description: Próxima tasa (o vigente como fallback)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 date:
+ *                   type: string
+ *                   example: 2026-06-01
+ *                 rate:
+ *                   type: number
+ *                   example: 554.42
+ *                 rateEUR:
+ *                   type: number
+ *                   example: 645.67
+ *                 isFuture:
+ *                   type: boolean
+ *                   description: true si la fecha valor es futura; false si es fallback a la vigente
+ *                   example: true
+ *       404:
+ *         description: No hay tasas registradas
+ */
+
+/**
+ * @swagger
+ * /api/rates/scrape:
+ *   post:
+ *     summary: Fuerza un scrapeo del BCV bajo demanda y guarda el resultado
+ *     description: >
+ *       Dispara una captura inmediata de la tasa del BCV (idempotente por fecha
+ *       valor). Si la variable de entorno SCRAPE_TOKEN está definida, requiere
+ *       el header x-scrape-token.
+ *     parameters:
+ *       - in: header
+ *         name: x-scrape-token
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Token de protección (solo si SCRAPE_TOKEN está configurada)
+ *     responses:
+ *       200:
+ *         description: Tasa capturada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 date:
+ *                   type: string
+ *                   example: 2026-06-01
+ *                 rate:
+ *                   type: number
+ *                   example: 554.42
+ *                 rateEUR:
+ *                   type: number
+ *                   example: 645.67
+ *                 isFuture:
+ *                   type: boolean
+ *                   example: true
+ *       401:
+ *         description: Token inválido o ausente
+ *       502:
+ *         description: Falló el scrapeo del BCV
+ */
+
+/**
+ * @swagger
  * /api/rates/history:
  *   get:
  *     summary: Obtiene el historial de las tasas desde una fecha inicial hasta una fecha final
