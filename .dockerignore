@@ -10,3 +10,5 @@ coverage
 build
 .DS_Store
 *.log
+prisma/*.db
+prisma/*.db-journal
